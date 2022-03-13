@@ -33,13 +33,20 @@ function convertDd(md: string): string {
 }
 
 function convertHyperlinks(md: string): string {
-  return md.replace(/\[(.*)\]\((.*)\)/gm, (match, content: string, url: string) => {
-    if (content === url) {
+  return md.replace(/\[(.*)\]\((.*)\)/gm, (match, label: string, url: string) => {
+    // if the link is the same as the content, return just the link
+    if (label === url) {
       return url;
     }
-    else {
-      return `${content} (${url})`;
+
+    // if the link is relative, remove it because there's no way to open it
+    // from the terminal anyway. In the future, we could convert it to the
+    // actual link of the docs.
+    if (!url.startsWith('http:') && !url.startsWith('https:')) {
+      return label;
     }
+
+    return `${label} (${url})`;
   });
 }
 
