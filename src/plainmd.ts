@@ -50,6 +50,7 @@ function convertCodeFences(md: string): string {
 }
 
 function removeInlineMarkup(md: string): string {
+  // from https://stackoverflow.com/a/70064453
   return md.replace(/(?<marks>[`]|\*{1,3}|_{1,3}|~{2})(?<inmarks>.*?)\1/g, '$<inmarks>$<link_text>');
 }
 
